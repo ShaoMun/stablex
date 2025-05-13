@@ -49,7 +49,7 @@ export default function Navbar({ current }: NavbarProps) {
           ))}
         </div>
         <div className="relative">
-          <button className="bg-gradient-to-r from-cyan-500/20 to-purple-600/20 border border-cyan-400/30 text-cyan-300 font-medium px-4 py-2 rounded-full">
+          <button className="bg-gradient-to-r from-cyan-500/20 to-purple-600/20 border border-cyan-400/30 text-cyan-300 font-medium px-2 !py-1 rounded-full">
             Loading...
           </button>
         </div>
@@ -75,12 +75,12 @@ export default function Navbar({ current }: NavbarProps) {
       </div>
       <div className="relative">
         {!connected ? (
-          <WalletMultiButton className="wallet-adapter-button wallet-adapter-button-trigger" />
+          <WalletMultiButton className="wallet-adapter-button wallet-adapter-button-trigger !px-2 !py-1" />
         ) : (
           <>
             <button 
               onClick={() => setShowDropdown(!showDropdown)} 
-              className="bg-gradient-to-r from-cyan-500/20 to-purple-600/20 border border-cyan-400/30 text-cyan-300 font-medium px-4 py-2 rounded-full hover:bg-cyan-500/30 transition-colors flex items-center gap-2"
+              className="bg-gradient-to-r from-cyan-500/20 to-purple-600/20 border border-cyan-400/30 text-cyan-300 font-medium px-2 !py-1 rounded-full hover:bg-cyan-500/30 transition-colors flex items-center gap-2"
             >
               <span className="w-2 h-2 rounded-full bg-green-500"></span>
               {walletAddress}

@@ -193,7 +193,7 @@ export default function SwapPage() {
             </div>
             
             {/* To Row */}
-            <div className="bg-black/40 p-4 rounded-xl mt-2">
+            <div className="bg-black/40 p-4 rounded-xl mt-2 outline-none focus-within:outline-none">
               <div className="flex justify-between mb-2">
                 <span className="text-sm text-gray-400">To</span>
                 <span className="text-sm text-gray-400">Balance: 0.00</span>
@@ -204,7 +204,7 @@ export default function SwapPage() {
                   placeholder="0.00"
                   value={amount ? (parseFloat(amount) * 4.7).toFixed(2) : ''}
                   readOnly
-                  className="flex-1 bg-transparent border-none text-2xl font-semibold text-white placeholder-gray-500 opacity-90 cursor-not-allowed"
+                  className="flex-1 bg-transparent border-none text-2xl font-semibold text-white placeholder-gray-500 opacity-90 cursor-not-allowed outline-none focus:outline-none"
                   style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }}
                   tabIndex={-1}
                 />
