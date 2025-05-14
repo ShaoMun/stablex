@@ -1,40 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 💱 StableX - FX Stablecoin Vault DEX
 
-## Getting Started
+StableX is a decentralized foreign exchange platform for stablecoins built on Solana. It uses a vault-based architecture for efficient oracle-driven FX swaps and single-sided liquidity provision.
 
-First, run the development server:
+## Features
+
+- **Single-sided LP positions**: Provide liquidity to a single stablecoin vault
+- **Oracle-based pricing**: Real-time FX rates from Pyth oracles
+- **Dynamic spreads**: Fees adjust based on vault imbalance
+- **Capital efficiency**: No impermanent loss for LPs
+- **Proportional rewards**: Earn fees based on your share of the vault
+
+## Architecture
+
+Unlike traditional AMMs that use token pairs in a single pool, StableX uses separate vaults for each stablecoin:
+
+- One vault = one token
+- Oracle provides the exchange rate
+- LPs earn rewards from their specific vault
+- Dynamic spreads balance supply and demand
+
+## Quick Start
+
+### Prerequisites
+
+- Solana CLI tools
+- Anchor framework 
+- Node.js and npm/yarn
+
+### Build and Deploy
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone https://github.com/your-username/stablex.git
+cd stablex
+
+# Install dependencies
+yarn install
+
+# Build and deploy the program
+./deployments/script_deploy.sh
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Using the DEX
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+#### For LPs:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. Deposit liquidity to a vault
+2. Earn fees from swaps
+3. Claim rewards
+4. Withdraw liquidity when desired
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+#### For Traders:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Connect wallet with supported stablecoins
+2. Select source and target currencies
+3. Enter swap amount
+4. Review rate and confirm transaction
 
-## Learn More
+## Technical Details
 
-To learn more about Next.js, take a look at the following resources:
+### Smart Contracts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+The core program is built with the Anchor framework and consists of:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Vault accounts that hold tokens and track TVL
+- LP position accounts that track user deposits
+- Reward tracking for fee distribution
+- Oracle integration for price discovery
+- Dynamic fee calculation based on vault health
 
-## Deploy on Vercel
+### Frontend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The web app is built with:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- Next.js for the React framework
+- Wallet adapter for Solana wallet connection
+- Custom hooks for program interactions
+
+## Development
+
+```bash
+# Run a local validator
+solana-test-validator
+
+# Build and deploy to localnet
+anchor build
+anchor deploy
+
+# Run tests
+anchor test
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
