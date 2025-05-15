@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 use crate::state::{VaultAccount, VAULT_ACCOUNT_SEED, VAULT_AUTHORITY_SEED, LP_FEE_PERCENT};
-use crate::utils::{get_oracle_price, calculate_amount_out, calculate_spread, calculate_drift, calculate_fee_allocation};
+use crate::utils::{calculate_amount_out, calculate_spread, calculate_drift, calculate_fee_allocation};
 
 #[derive(Accounts)]
 pub struct Swap<'info> {
@@ -59,10 +59,6 @@ pub struct Swap<'info> {
     )]
     pub target_vault_token: Account<'info, TokenAccount>,
     
-    /// CHECK: FX oracle account to get the exchange rate
-    #[account(constraint = oracle.key() == source_vault.oracle)]
-    pub oracle: AccountInfo<'info>,
-    
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
 }
@@ -71,12 +67,13 @@ pub fn handler(
     ctx: Context<Swap>,
     amount_in: u64,
     minimum_amount_out: u64,
+    oracle_price: u64, // Added parameter for oracle price from API
 ) -> Result<()> {
     let source_vault = &mut ctx.accounts.source_vault;
     let target_vault = &mut ctx.accounts.target_vault;
     
-    // Get the FX rate from the oracle
-    let oracle_price = get_oracle_price(&ctx.accounts.oracle)?;
+    // Get the FX rate from the provided oracle price parameter
+    // Note: ensure the price is already scaled to 10^9 when passed from API
     
     // Calculate the spread based on vault health (imbalance)
     let source_amount = source_vault.tvl;

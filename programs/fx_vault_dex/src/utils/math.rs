@@ -113,12 +113,12 @@ pub fn calculate_amount_out(
     };
 
     // Convert to u64, checking for overflow
-    let amount_out_before_fee_u64 = amount_out_before_fee
+    let amount_out_before_fee_u64: u64 = amount_out_before_fee
         .try_into()
         .map_err(|_| ErrorCode::MathOverflow)?;
 
     // Calculate fee (spread * amount_out / 10000)
-    let fee_amount = amount_out_before_fee_u64
+    let fee_amount: u64 = amount_out_before_fee_u64
         .checked_mul(spread)
         .ok_or(ErrorCode::MathOverflow)?
         .checked_div(10000)

@@ -66,10 +66,6 @@ pub struct RebalanceVault<'info> {
     )]
     pub target_vault_token: Account<'info, TokenAccount>,
     
-    /// CHECK: Oracle for rate calculation
-    #[account(constraint = oracle.key() == source_vault.oracle)]
-    pub oracle: AccountInfo<'info>,
-    
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
 }
@@ -77,6 +73,7 @@ pub struct RebalanceVault<'info> {
 pub fn handler(
     ctx: Context<RebalanceVault>,
     amount: u64,
+    oracle_price: u64,
 ) -> Result<()> {
     let source_vault = &mut ctx.accounts.source_vault;
     let target_vault = &mut ctx.accounts.target_vault;
@@ -129,6 +126,10 @@ pub fn handler(
     
     // Calculate new vault health after injection
     let new_vault_health = calculate_vault_health(source_amount, target_vault.tvl);
+    
+    // Update oracle price data
+    source_vault.last_oracle_price = oracle_price;
+    source_vault.last_update_timestamp = Clock::get()?.unix_timestamp;
     
     msg!("Rebalanced vault: Injected {} tokens. Vault health improved from {:.4} to {:.4}", 
          injection_amount, vault_health, new_vault_health);

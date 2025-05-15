@@ -1,5 +1,3 @@
-use anchor_lang::prelude::*;
-
 // Seeds for PDAs
 pub const VAULT_ACCOUNT_SEED: &[u8] = b"vault-account";
 pub const LP_POSITION_SEED: &[u8] = b"lp-position";

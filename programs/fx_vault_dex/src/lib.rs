@@ -6,7 +6,7 @@ pub mod utils;
 
 use instructions::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("5mm6uP4Qgumg3gXiiLg7jgWJkcUFXHKdUutz5HfmWnSs");
 
 #[program]
 pub mod fx_vault_dex {
@@ -39,8 +39,9 @@ pub mod fx_vault_dex {
         ctx: Context<Swap>,
         amount_in: u64,
         minimum_amount_out: u64,
+        oracle_price: u64,
     ) -> Result<()> {
-        instructions::swap::handler(ctx, amount_in, minimum_amount_out)
+        instructions::swap::handler(ctx, amount_in, minimum_amount_out, oracle_price)
     }
 
     pub fn distribute_incentives(
@@ -58,7 +59,8 @@ pub mod fx_vault_dex {
     pub fn rebalance_vault(
         ctx: Context<RebalanceVault>,
         amount: u64,
+        oracle_price: u64,
     ) -> Result<()> {
-        instructions::rebalance_vault::handler(ctx, amount)
+        instructions::rebalance_vault::handler(ctx, amount, oracle_price)
     }
 } 
